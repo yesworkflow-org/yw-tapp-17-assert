@@ -22,7 +22,9 @@ RUN echo '****** Install Java 8 Runtime Environment'                            
  && ./configure                                                                                     \
  && ./makexsb
     
-ENV PATH=$PATH:/home/skope/xsb-3.6/bin
+COPY ./yw /home/skope/bin/yw
+ENV YW_JAR=/home/skope/bin/yw.jar
+ENV PATH=$PATH:/home/skope/bin:/home/skope/xsb-3.6/bin
 
 USER skope
 
