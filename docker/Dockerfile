@@ -1,4 +1,4 @@
-FROM  openskope/paleocar
+FROM  openskope/paleocar:0.1.0
 
 ARG DEBIAN_FRONTEND=noninteractive
 
