@@ -23,11 +23,8 @@ YW_GRAPH_BASE = $(SCRIPT_BASE)_wf
 YW_GRAPH_GV = $(YW_GRAPH_BASE).gv
 YW_GRAPH_PNG = $(YW_GRAPH_BASE).png
 YW_GRAPH_PDF = $(YW_GRAPH_BASE).pdf
-YW_GRAPH_OPTIONS = -c graph.layout=TB -c graph.view=COMBINED
 YW_GRAPHS = $(YW_GRAPH_GV) $(YW_GRAPH_PNG) $(YW_GRAPH_PDF)
-
-$(YW_GRAPH_GV): $(SCRIPT)
-	yw graph $(SCRIPT) $(YW_GRAPH_OPTIONS) > $(YW_GRAPH_GV)
+YW_GRAPH_OPTIONS = -c graph.layout=TB -c graph.view=COMBINED
 
 .SUFFIXES:
 .SUFFIXES: .gv .pdf .png
@@ -36,15 +33,18 @@ $(YW_GRAPH_GV): $(SCRIPT)
 .gv.png:
 	dot -Tpng $*.gv -o $*.png
 
+$(YW_GRAPH_GV): $(SCRIPT)
+	yw graph $(SCRIPT) $(YW_GRAPH_OPTIONS) > $(YW_GRAPH_GV)
+
 graph: $(YW_GRAPHS)
 #------------------------------------------------------------------------------
 
 # make model ------------------------------------------------------------------
 YW_EXTRACT_FACTS = $(SCRIPT_BASE)_extract.P
 YW_MODEL_FACTS = $(SCRIPT_BASE)_model.P
+YW_FACTS = $(YW_EXTRACT_FACTS) $(YW_MODEL_FACTS)
 YW_EXTRACT_OPTIONS = -c extract.factsfile=$(YW_EXTRACT_FACTS)
 YW_MODEL_OPTIONS = -c model.factsfile=$(YW_MODEL_FACTS)
-YW_FACTS = $(YW_EXTRACT_FACTS) $(YW_MODEL_FACTS)
 
 $(YW_FACTS): $(SCRIPT)
 	yw model $(SCRIPT) $(YW_EXTRACT_OPTIONS) $(YW_MODEL_OPTIONS)
@@ -62,8 +62,20 @@ $(RECON_FACTS): $(SCRIPT_STDOUT)
 recon: $(RECON_FACTS)
 #------------------------------------------------------------------------------
 
+# make views ------------------------------------------------------------------
+YW_VIEWS = $(SCRIPT_BASE)_views.P
+
+$(YW_VIEWS): $(YW_FACTS)
+	bash rules/materialize_views.sh $(SCRIPT_BASE) > $(YW_VIEWS)
+	rm $(XWAM_FILES)
+
+views: $(YW_VIEWS)
+#------------------------------------------------------------------------------
 
 # make clean ------------------------------------------------------------------
+XWAM_FILES = ./*.xwam ./rules/*.xwam
+
 clean:
-	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS) $(RECON_FACTS)
+	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS) \
+	$(RECON_FACTS) $(YW_VIEWS) $(XWAM_FILES)
 #------------------------------------------------------------------------------
