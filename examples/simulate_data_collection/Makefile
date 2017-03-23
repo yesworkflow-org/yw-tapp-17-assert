@@ -3,7 +3,7 @@ SCRIPT_BASE = simulate_data_collection
 SCRIPT = $(SCRIPT_BASE).py
 
 # make all --------------------------------------------------------------------
-all: model graph run recon
+all: model views graph run recon
 #------------------------------------------------------------------------------
 
 # make run --------------------------------------------------------------------
