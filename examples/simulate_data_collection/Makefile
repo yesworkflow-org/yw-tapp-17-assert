@@ -3,7 +3,7 @@ SCRIPT_BASE = simulate_data_collection
 SCRIPT = $(SCRIPT_BASE).py
 
 # make all --------------------------------------------------------------------
-all: model graph run
+all: model graph run recon
 #------------------------------------------------------------------------------
 
 # make run --------------------------------------------------------------------
@@ -52,7 +52,18 @@ $(YW_FACTS): $(SCRIPT)
 model: $(YW_FACTS)
 #------------------------------------------------------------------------------
 
+# make recon ------------------------------------------------------------------
+RECON_FACTS = $(SCRIPT_BASE)_recon.P
+RECON_OPTIONS = -c recon.factsfile=$(RECON_FACTS) -c recon.rundir=.
+
+$(RECON_FACTS): $(SCRIPT_STDOUT)
+	yw recon $(SCRIPT) $(RECON_OPTIONS)
+
+recon: $(RECON_FACTS)
+#------------------------------------------------------------------------------
+
+
 # make clean ------------------------------------------------------------------
 clean:
-	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS)
+	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS) $(RECON_FACTS)
 #------------------------------------------------------------------------------
