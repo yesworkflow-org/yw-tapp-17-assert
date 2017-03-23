@@ -9,7 +9,7 @@ xsb --quietload --noprompt --nofeedback --nobanner << END_XSB_STDIN
 ['$EXTRACT_FACTS'].
 ['$MODEL_FACTS'].
 ['rules/general_rules'].
-['rules/yw_views'].
+['rules/yw_view_rules'].
 
 set_prolog_flag(unknown, fail).
 
