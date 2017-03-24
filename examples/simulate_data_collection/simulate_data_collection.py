@@ -15,6 +15,7 @@ from datetime import datetime
 @param data_redundancy @desc The desired redundancy of the data sets collected.
 @in sample_spreadsheet @desc CSV file giving quality score for each crystal.
 @in calibration_image_file @as calibration_image @desc File used to correct raw diffraction images.
+@out raw_image
 @out corrected_image @desc The corrected diffraction images collected on all crystals.
 @out run_log
 @out collection_log
