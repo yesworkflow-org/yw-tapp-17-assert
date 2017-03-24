@@ -26,3 +26,10 @@ workflow_output_depends_on_input(simulate_data_collection,raw_image,data_redunda
 workflow_output_depends_on_input(simulate_data_collection,raw_image,sample_spreadsheet).
 workflow_output_depends_on_input(simulate_data_collection,raw_image,sample_score_cutoff).
 workflow_output_depends_on_input(simulate_data_collection,raw_image,cassette_id).
+
+
+%---------------------------------------------------------------------------------------------------
+% FACT: workflow_output_independent_of_input(Workflow, Output, Input).
+%...................................................................................................
+workflow_output_independent_of_input(simulate_data_collection,raw_image,calibration_image).
+workflow_output_independent_of_input(simulate_data_collection,rejection_log,calibration_image).

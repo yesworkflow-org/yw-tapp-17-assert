@@ -7,5 +7,13 @@ workflow_output_depends_on_input(WorkflowName, WorkflowOutDataName, WorkflowInDa
     yw_inflow(WorkflowId, _, StepInDataId, WorkflowInDatatName, _, _).
     
 
+:- table workflow_output_depends_on_input/3.
+workflow_output_independent_of_input(WorkflowName, WorkflowOutDataName, WorkflowInDatatName) :-
+    yw_workflow(WorkflowId, WorkflowName, _, _, _, _),
+    yw_outflow(_, _, StepOutDataId, _, WorkflowId, _, _, WorkflowOutDataName),
+    yw_inflow(WorkflowId, _, StepInDataId, WorkflowInDatatName, _, _),
+    not yw_data_downstream(StepInDataId, StepOutDataId).
+    
+
 
 
