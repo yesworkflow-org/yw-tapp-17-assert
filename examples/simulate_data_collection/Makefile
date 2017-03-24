@@ -3,7 +3,7 @@ SCRIPT_BASE = simulate_data_collection
 SCRIPT = $(SCRIPT_BASE).py
 
 # make all --------------------------------------------------------------------
-all: model views graph run recon
+all: model views infer graph run recon 
 #------------------------------------------------------------------------------
 
 # make run --------------------------------------------------------------------
@@ -67,9 +67,17 @@ YW_VIEWS = $(SCRIPT_BASE)_views.P
 
 $(YW_VIEWS): $(YW_FACTS)
 	bash rules/materialize_views.sh $(SCRIPT_BASE) > $(YW_VIEWS)
-	rm $(XWAM_FILES)
 
 views: $(YW_VIEWS)
+#------------------------------------------------------------------------------
+
+# make infer ------------------------------------------------------------------
+INFERRED_DEPS = $(SCRIPT_BASE)_inferred.P
+
+$(INFERRED_DEPS): $(YW_VIEWS)
+	bash rules/infer_dependencies.sh $(SCRIPT_BASE) > $(INFERRED_DEPS)
+
+infer: $(INFERRED_DEPS)
 #------------------------------------------------------------------------------
 
 # make clean ------------------------------------------------------------------
@@ -77,5 +85,5 @@ XWAM_FILES = ./*.xwam ./rules/*.xwam
 
 clean:
 	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS) \
-	$(RECON_FACTS) $(YW_VIEWS) $(XWAM_FILES)
+	$(RECON_FACTS) $(YW_VIEWS) $(INFERRED_DEPS) $(XWAM_FILES)
 #------------------------------------------------------------------------------
