@@ -5,3 +5,11 @@
 %...................................................................................................
 excess_workflow_output_input_dependency(simulate_data_collection,raw_image,calibration_image).
 excess_workflow_output_input_dependency(simulate_data_collection,rejection_log,calibration_image).
+
+
+%---------------------------------------------------------------------------------------------------
+% FACT: missing_workflow_output_input_dependency(Workflow, Output, Input).
+%...................................................................................................
+missing_workflow_output_input_dependency(simulate_data_collection,raw_image,cassette_id).
+missing_workflow_output_input_dependency(simulate_data_collection,corrected_image,sample_score_cutoff).
+missing_workflow_output_input_dependency(simulate_data_collection,corrected_image,data_redundancy).

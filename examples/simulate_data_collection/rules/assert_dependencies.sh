@@ -16,4 +16,7 @@ xsb --quietload --noprompt --nofeedback --nobanner << END_XSB_STDIN
 rule_banner('excess_workflow_output_input_dependency(Workflow, Output, Input).').
 printall(excess_workflow_output_input_dependency(_,_,_)).
 
+rule_banner('missing_workflow_output_input_dependency(Workflow, Output, Input).').
+printall(missing_workflow_output_input_dependency(_,_,_)).
+
 END_XSB_STDIN
