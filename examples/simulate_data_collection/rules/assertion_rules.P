@@ -1,0 +1,9 @@
+
+:- table excess_workflow_output_input_dependency/3.
+excess_workflow_output_input_dependency(WorkflowName, WorkflowOutDataName, WorkflowInDataName) :-
+    assert_workflow_output_depends_on_input(WorkflowName, WorkflowOutDataName, WorkflowInDataName),
+    not workflow_output_depends_on_input(WorkflowName, WorkflowOutDataName, WorkflowInDataName).
+
+    
+
+

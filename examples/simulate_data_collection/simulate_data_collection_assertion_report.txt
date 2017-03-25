@@ -1,0 +1,7 @@
+
+
+%---------------------------------------------------------------------------------------------------
+% FACT: excess_workflow_output_input_dependency(Workflow, Output, Input).
+%...................................................................................................
+excess_workflow_output_input_dependency(simulate_data_collection,raw_image,calibration_image).
+excess_workflow_output_input_dependency(simulate_data_collection,rejection_log,calibration_image).

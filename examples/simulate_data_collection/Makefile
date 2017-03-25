@@ -3,7 +3,7 @@ SCRIPT_BASE = simulate_data_collection
 SCRIPT = $(SCRIPT_BASE).py
 
 # make all --------------------------------------------------------------------
-all: model views infer graph run recon 
+all: model views infer assert graph run recon 
 #------------------------------------------------------------------------------
 
 # make run --------------------------------------------------------------------
@@ -80,10 +80,20 @@ $(INFERRED_DEPS): $(YW_VIEWS)
 infer: $(INFERRED_DEPS)
 #------------------------------------------------------------------------------
 
+# make assert -----------------------------------------------------------------
+ASSERTIONS = $(SCRIPT_BASE)_assertions.P
+ASSERTION_REPORT = $(SCRIPT_BASE)_assertion_report.txt
+
+$(ASSERTION_REPORT): $(INFERRED_DEPS) $(ASSERTIONS)
+	bash rules/assert_dependencies.sh $(SCRIPT_BASE) > $(ASSERTION_REPORT)
+
+assert: $(ASSERTION_REPORT)
+#------------------------------------------------------------------------------
+
 # make clean ------------------------------------------------------------------
 XWAM_FILES = ./*.xwam ./rules/*.xwam
 
 clean:
 	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS) \
-	$(RECON_FACTS) $(YW_VIEWS) $(INFERRED_DEPS) $(XWAM_FILES)
+	$(RECON_FACTS) $(YW_VIEWS) $(INFERRED_DEPS) $(ASSERTION_REPORT) $(XWAM_FILES)
 #------------------------------------------------------------------------------
