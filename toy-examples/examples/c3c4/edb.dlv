@@ -1,0 +1,55 @@
+% in- and out-ports (if any)
+inp("SYNMAP_lcover_map_inflow").
+inp("mean_airtemp_inflow").
+inp("mean_precip_inflow").
+
+outp("Grass_frac_outflow").
+outp("C4_frac_outflow").
+outp("C3_frac_outflow").
+
+    
+% e(F, T): edge from F to T
+e("SYNMAP_lcover_map", "get_SYNMAP_lcover_map").
+e("lon", "gen_nc_C3_frac").
+e("lon", "gen_nc_C4_frac").
+e("lon", "gen_nc_Grass_frac").
+e("lat", "gen_nc_C3_frac").
+e("lat", "gen_nc_C4_frac").
+e("lat", "gen_nc_Grass_frac").
+e("lonBB", "gen_nc_C3_frac").
+e("lonBB", "gen_nc_C4_frac").
+e("lonBB", "gen_nc_Grass_frac").
+e("latBB", "gen_nc_C3_frac").
+e("latBB", "gen_nc_C4_frac").
+e("latBB", "gen_nc_Grass_frac").
+e("mean_airtemp", "get_monthly_mean_airtemp").
+e("Tair_Matrix", "examine_pixels_grass").
+e("mean_precip", "get_monthly_mean_precip").
+e("Rain_Matrix", "examine_pixels_grass").
+e("Grass", "gen_nc_Grass_frac").
+e("C3", "gen_nc_C3_frac").
+e("C4", "gen_nc_C4_frac").
+e("get_SYNMAP_lcover_map", "lon").
+e("get_SYNMAP_lcover_map", "lat").
+e("get_SYNMAP_lcover_map", "lonBB").
+e("get_SYNMAP_lcover_map", "latBB").
+e("get_monthly_mean_airtemp", "Tair_Matrix").
+e("get_monthly_mean_precip", "Rain_Matrix").
+e("initialize_Grass_Matrix", "Grass").
+e("examine_pixels_grass", "C3").
+e("examine_pixels_grass", "C4").
+e("gen_nc_C3_frac", "C3_frac").
+e("gen_nc_C4_frac", "C4_frac").
+e("gen_nc_Grass_frac", "Grass_frac").
+e("SYNMAP_lcover_map_inflow", "SYNMAP_lcover_map").
+e("mean_airtemp_inflow", "mean_airtemp").
+e("mean_precip_inflow", "mean_precip").
+e("Grass_frac", "Grass_frac_outflow").
+e("C4_frac", "C4_frac_outflow").
+e("C3_frac", "C3_frac_outflow").
+
+% Some extra edges, for experimenting: 
+%% e("mean_airtemp", "gen_nc_C3_frac").
+%% e("mean_airtemp", "gen_nc_C4_frac").
+%% e("mean_precip", "gen_nc_C3_frac").
+%% e("mean_precip", "gen_nc_C4_frac").

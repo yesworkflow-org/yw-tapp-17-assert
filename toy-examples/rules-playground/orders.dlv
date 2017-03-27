@@ -1,0 +1,30 @@
+% Assume graph is in relation e(X,Y) in <e-file>, denoting dataflow X --> Y 
+% ... and rules are in <rule-file>
+% Then invoke as follows: 
+% $ dlv <rule-file> <e-file> -filter=...
+
+
+% Nodes
+n(X) :- e(X,_).
+n(X) :- e(_,X).
+
+% Sources and Sinks
+src(X) :- n(X), not not_src(X). 
+snk(X) :- n(X), not not_snk(X).
+
+not_src(X) :- e(_,X).
+not_snk(X) :- e(X,_).
+
+% less-than (before, upstream-off) relation
+lt(X,Y) :- e(X,Y).
+lt(X,Y) :- e(X,Z), lt(Z,Y).
+
+% covering relation; use to eliminate transitive edges
+cv(X,Y) :- lt(X,Y), not between(X,Y).
+
+between(X,Y) :- lt(X,Z), lt(Z,Y).
+
+delta(X,Y) :- cv(X,Y), not e(X,Y).
+delta(X,Y) :- e(X,Y), not cv(X,Y).
+
+

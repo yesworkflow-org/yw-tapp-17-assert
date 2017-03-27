@@ -1,0 +1,57 @@
+% NODES
+n(X) :- e(X,_).
+n(X) :- e(_,X).
+
+% SOURCES and SINKS
+src(X) :- n(X), not not_src(X). 
+snk(X) :- n(X), not not_snk(X).
+
+not_src(X) :- e(_,X).
+not_snk(X) :- e(X,_).
+
+% UPstream-of (aka "<" or "before") relation: up = e+ (transitive closure)
+up(X,Y) :- e(X,Y).
+up(X,Y) :- e(X,Z), up(Z,Y).
+
+% UP-equivalence(X,Y) means up(X) = up(Y)
+upEqv(X,Y) :- upInc(X,Y), upInc(Y,X), X<Y.
+
+upInc(X,Y) :- up(_,X), n(Y), not notUpInc(X,Y).
+
+% up(Y1) \not\subseteq up(Y2) 
+notUpInc(Y1,Y2) :- n(Y1), up(X,Y2), not up(X,Y1).
+
+
+
+% COVERING relation; use to eliminate transitive edges
+cv(X,Y) :- up(X,Y), not between(X,Y).
+
+between(X,Y) :- up(X,Z), up(Z,Y).
+
+% Is e/2 identical to the covering relation cv/2
+delta(X,Y) :- cv(X,Y), not e(X,Y).
+delta(X,Y) :- e(X,Y), not cv(X,Y).
+
+% INFER TYPES for a bipartite graph (Step -> Data) U (Data -> Step),
+% based on distinguished in-port (inp/1), out-port (outp/1) nodes:
+data(D) :- inp(I), e(I,D).    % Initialize from in-ports
+data(D) :- step(S), e(S,D).   % Propagate DOWN via Step -> Data edge
+data(D) :- step(S), e(D,S),   % Propagate UP   via Data -> Step edge
+	   not inp(D).        % .. unless hitting in-port
+
+step(S) :- data(D), e(D,S),   % Propagate DOWN via Data -> Step edge
+	   not outp(S).       % .. unless hitting out-port
+step(S) :- data(D), e(S,D),   % Propagate UP   via Step -> Data edge  
+	   not inp(S).        % ... unless hitting in-port
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% STYLESHEET relations for Graphviz:
+
+viz_node(source,X) :- src(X).
+viz_node(sink,X) :- snk(X).
+viz_node(data,X) :- data(X).
+viz_node(step,X) :- step(X).
+
+viz_edge(default,X,Y) :- e(X,Y).
+viz_edge(delta,X,Y) :- delta(X,Y).
+

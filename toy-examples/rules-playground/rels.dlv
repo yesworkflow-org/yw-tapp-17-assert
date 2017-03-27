@@ -1,0 +1,28 @@
+
+% node
+n(X) :- e(X,_).
+n(X) :- e(_,X).
+
+source(X) :- n(X), not not_source(X). 
+not_source(X) :- node(_,X).
+
+sink(X) :- n(X), not not_sink(X).
+not_sink(X) :- node(X,_).
+
+
+% X is before Y in the wf model
+b(X,Y) :- e(X,Y).
+b(X,Y) :- e(X,Z), b(Z,Y).
+
+% before(Y1) not subset before(Y2)
+b_not_sub(Y1,Y2) :- b(X,Y2), n(Y1), not b(X,Y1).
+
+% before(Y1) is a non-empty subset of before(Y2) 
+b_sub(Y1,Y2) :- b(_,Y1), n(Y2), not b_not_sub(Y1, Y2).
+
+% Y1 and Y2 are equivalent w.r.t. before
+eqv(Y1,Y2) :- b_sub(Y1,Y2), b_sub(Y2,Y1), Y1 < Y2.
+
+% Now do something similar but for SOURCE node dependencies! 
+
+sb(X,Y) :- b(X,Y), source(X).
