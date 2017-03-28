@@ -14,13 +14,20 @@ up(X,Y) :- e(X,Y).
 up(X,Y) :- e(X,Z), up(Z,Y).
 
 % UP-equivalence(X,Y) means up(X) = up(Y)
-upEqv(X,Y) :- upInc(X,Y), upInc(Y,X), X<Y.
+upEqv(X,Y) :- upIncluded(X,Y), upIncluded(Y,X), X!=Y.
 
-upInc(X,Y) :- up(_,X), n(Y), not notUpInc(X,Y).
+% up(X) is included in up(Y) 
+upIncluded(X,Y) :- up(_,X), n(Y), not notUpIncluded(X,Y).
 
 % up(Y1) \not\subseteq up(Y2) 
-notUpInc(Y1,Y2) :- n(Y1), up(X,Y2), not up(X,Y1).
+notUpIncluded(Y1,Y2) :- n(Y1), up(X,Y2), not up(X,Y1).
 
+% calculate equivalence classes
+%upEqvN(X,N) :- upEqv(X,_), #count{Y : upEqv(X,Y) } = N.
+
+notUpEqvMin(X) :- upEqv(X,Y), X>Y.
+
+upEqvMin(X) :- upEqv(X,_), not notUpEqvMin(X).
 
 
 % COVERING relation; use to eliminate transitive edges
@@ -47,11 +54,13 @@ step(S) :- data(D), e(S,D),   % Propagate UP   via Step -> Data edge
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % STYLESHEET relations for Graphviz:
 
+% viz_node(data,X) :- data(X), upEqv(X,_).
+viz_node(data,X) :- data(X).
 viz_node(source,X) :- src(X).
 viz_node(sink,X) :- snk(X).
-viz_node(data,X) :- data(X).
 viz_node(step,X) :- step(X).
 
 viz_edge(default,X,Y) :- e(X,Y).
 viz_edge(delta,X,Y) :- delta(X,Y).
 
+viz_edge(upEqv,X,Y) :- upEqv(X,Y).

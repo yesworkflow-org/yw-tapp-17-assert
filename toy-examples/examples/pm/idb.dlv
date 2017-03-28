@@ -1,7 +1,7 @@
 
-viz_node(process,X):- pm_step(X).
-viz_node(artifact,X):- pm_artifact(X).
-viz_node(agent,X):- pm_agent(X).
+viz_node(process,X) :- pm_step(X).
+viz_node(artifact,X) :- pm_artifact(X).
+viz_node(agent,X) :- pm_agent(X).
 
 
 viz_edge(read,X,Y) :- pm_read(X,Y).
