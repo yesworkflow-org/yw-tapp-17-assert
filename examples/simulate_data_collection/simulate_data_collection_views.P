@@ -16,44 +16,44 @@ yw_workflow_script(11,transform_image,1,'simulate_data_collection.py').
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_program(WorkflowId, ProgramName, WorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_program(1,simulate_data_collection,nil,1,12,140).
-yw_program(2,initialize_run,1,1,28,45).
-yw_program(3,load_screening_results,1,1,49,60).
-yw_program(4,calculate_strategy,1,1,64,70).
-yw_program(5,log_rejected_sample,1,1,74,83).
-yw_program(6,collect_data_set,1,1,87,104).
-yw_program(7,transform_images,1,1,108,120).
-yw_program(8,log_average_image_intensity,1,1,124,136).
-yw_program(9,calculate_strategy,nil,1,144,168).
-yw_program(10,collect_next_image,nil,1,172,192).
-yw_program(11,transform_image,nil,1,196,221).
+yw_program(1,simulate_data_collection,nil,1,12,145).
+yw_program(2,initialize_run,1,1,33,50).
+yw_program(3,load_screening_results,1,1,54,65).
+yw_program(4,calculate_strategy,1,1,69,75).
+yw_program(5,log_rejected_sample,1,1,79,88).
+yw_program(6,collect_data_set,1,1,92,109).
+yw_program(7,transform_images,1,1,113,125).
+yw_program(8,log_average_image_intensity,1,1,129,141).
+yw_program(9,calculate_strategy,nil,1,149,173).
+yw_program(10,collect_next_image,nil,1,177,197).
+yw_program(11,transform_image,nil,1,201,226).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_workflow(WorkflowId, WorkflowName, ParentWorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_workflow(1,simulate_data_collection,nil,1,12,140).
-yw_workflow(11,transform_image,nil,1,196,221).
+yw_workflow(1,simulate_data_collection,nil,1,12,145).
+yw_workflow(11,transform_image,nil,1,201,226).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_workflow_step(StepId, StepName, WorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_workflow_step(2,initialize_run,1,1,28,45).
-yw_workflow_step(3,load_screening_results,1,1,49,60).
-yw_workflow_step(4,calculate_strategy,1,1,64,70).
-yw_workflow_step(5,log_rejected_sample,1,1,74,83).
-yw_workflow_step(6,collect_data_set,1,1,87,104).
-yw_workflow_step(7,transform_images,1,1,108,120).
-yw_workflow_step(8,log_average_image_intensity,1,1,124,136).
+yw_workflow_step(2,initialize_run,1,1,33,50).
+yw_workflow_step(3,load_screening_results,1,1,54,65).
+yw_workflow_step(4,calculate_strategy,1,1,69,75).
+yw_workflow_step(5,log_rejected_sample,1,1,79,88).
+yw_workflow_step(6,collect_data_set,1,1,92,109).
+yw_workflow_step(7,transform_images,1,1,113,125).
+yw_workflow_step(8,log_average_image_intensity,1,1,129,141).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_function(FunctionId, FunctionName, ParentWorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_function(9,calculate_strategy,nil,1,144,168).
-yw_function(10,collect_next_image,nil,1,172,192).
-yw_function(11,transform_image,nil,1,196,221).
+yw_function(9,calculate_strategy,nil,1,149,173).
+yw_function(10,collect_next_image,nil,1,177,197).
+yw_function(11,transform_image,nil,1,201,226).
 
 
 %---------------------------------------------------------------------------------------------------
