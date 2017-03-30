@@ -411,27 +411,27 @@ log_template_variable(18, 'average_intensity', 8).
 log_template_variable(19, 'corrected_image_path', 8).
 
 % FACT: assert(program_id, subject_id, predicate, object_id).
-assert(nil, 6, 'depends-on', 1).
-assert(nil, 6, 'depends-on', 2).
-assert(nil, 6, 'depends-on', 3).
-assert(nil, 6, 'depends-on', 4).
-assert(nil, 7, 'depends-on', 1).
-assert(nil, 7, 'depends-on', 2).
-assert(nil, 7, 'depends-on', 3).
-assert(nil, 7, 'depends-on', 4).
-assert(nil, 7, 'depends-on', 5).
-assert(nil, 8, 'depends-on', 1).
-assert(nil, 8, 'depends-on', 2).
-assert(nil, 8, 'depends-on', 3).
-assert(nil, 8, 'depends-on', 4).
-assert(nil, 8, 'depends-on', 5).
-assert(nil, 9, 'depends-on', 1).
-assert(nil, 9, 'depends-on', 2).
-assert(nil, 9, 'depends-on', 3).
-assert(nil, 9, 'depends-on', 4).
-assert(nil, 9, 'depends-on', 5).
-assert(nil, 10, 'depends-on', 1).
-assert(nil, 10, 'depends-on', 2).
-assert(nil, 10, 'depends-on', 3).
-assert(nil, 10, 'depends-on', 4).
+assert(1, 6, 'depends-on', 1).
+assert(1, 6, 'depends-on', 2).
+assert(1, 6, 'depends-on', 3).
+assert(1, 6, 'depends-on', 4).
+assert(1, 7, 'depends-on', 1).
+assert(1, 7, 'depends-on', 2).
+assert(1, 7, 'depends-on', 3).
+assert(1, 7, 'depends-on', 4).
+assert(1, 7, 'depends-on', 5).
+assert(1, 8, 'depends-on', 1).
+assert(1, 8, 'depends-on', 2).
+assert(1, 8, 'depends-on', 3).
+assert(1, 8, 'depends-on', 4).
+assert(1, 8, 'depends-on', 5).
+assert(1, 9, 'depends-on', 1).
+assert(1, 9, 'depends-on', 2).
+assert(1, 9, 'depends-on', 3).
+assert(1, 9, 'depends-on', 4).
+assert(1, 9, 'depends-on', 5).
+assert(1, 10, 'depends-on', 1).
+assert(1, 10, 'depends-on', 2).
+assert(1, 10, 'depends-on', 3).
+assert(1, 10, 'depends-on', 4).
 

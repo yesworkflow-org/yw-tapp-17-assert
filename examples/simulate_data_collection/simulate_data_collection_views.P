@@ -360,3 +360,31 @@ yw_description(port,34,sample_id,'The crystal that the diffraction image was col
 yw_description(port,35,energy,'Energy (in eV) at which the diffraction image was collected.').
 yw_description(port,36,frame_number,'Index of diffraction image within data set.').
 yw_description(port,37,raw_image_file,'Path of file storing the raw diffraction image.').
+
+
+%---------------------------------------------------------------------------------------------------
+% FACT: yw_assertion(program_id, program_name, program_qualifed_name, subject_id, subject_name, subject_qualified_name, predicate, object_id, object_name, object_qualified_name).
+%...................................................................................................
+yw_assertion(1,simulate_data_collection,simulate_data_collection,6,raw_image,'[raw_image]','depends-on',1,cassette_id,'[cassette_id]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,6,raw_image,'[raw_image]','depends-on',2,sample_score_cutoff,'[sample_score_cutoff]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,6,raw_image,'[raw_image]','depends-on',3,data_redundancy,'[data_redundancy]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,6,raw_image,'[raw_image]','depends-on',4,sample_spreadsheet,'[sample_spreadsheet]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,7,corrected_image,'[corrected_image]','depends-on',1,cassette_id,'[cassette_id]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,7,corrected_image,'[corrected_image]','depends-on',2,sample_score_cutoff,'[sample_score_cutoff]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,7,corrected_image,'[corrected_image]','depends-on',3,data_redundancy,'[data_redundancy]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,7,corrected_image,'[corrected_image]','depends-on',4,sample_spreadsheet,'[sample_spreadsheet]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,7,corrected_image,'[corrected_image]','depends-on',5,calibration_image,'[calibration_image]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,8,run_log,'[run_log]','depends-on',1,cassette_id,'[cassette_id]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,8,run_log,'[run_log]','depends-on',2,sample_score_cutoff,'[sample_score_cutoff]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,8,run_log,'[run_log]','depends-on',3,data_redundancy,'[data_redundancy]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,8,run_log,'[run_log]','depends-on',4,sample_spreadsheet,'[sample_spreadsheet]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,8,run_log,'[run_log]','depends-on',5,calibration_image,'[calibration_image]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,9,collection_log,'[collection_log]','depends-on',1,cassette_id,'[cassette_id]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,9,collection_log,'[collection_log]','depends-on',2,sample_score_cutoff,'[sample_score_cutoff]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,9,collection_log,'[collection_log]','depends-on',3,data_redundancy,'[data_redundancy]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,9,collection_log,'[collection_log]','depends-on',4,sample_spreadsheet,'[sample_spreadsheet]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,9,collection_log,'[collection_log]','depends-on',5,calibration_image,'[calibration_image]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,10,rejection_log,'[rejection_log]','depends-on',1,cassette_id,'[cassette_id]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,10,rejection_log,'[rejection_log]','depends-on',2,sample_score_cutoff,'[sample_score_cutoff]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,10,rejection_log,'[rejection_log]','depends-on',3,data_redundancy,'[data_redundancy]').
+yw_assertion(1,simulate_data_collection,simulate_data_collection,10,rejection_log,'[rejection_log]','depends-on',4,sample_spreadsheet,'[sample_spreadsheet]').
