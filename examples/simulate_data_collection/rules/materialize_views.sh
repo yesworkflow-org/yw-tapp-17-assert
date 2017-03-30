@@ -55,7 +55,7 @@ printall(yw_qualified_name(_,_,_)).
 rule_banner('yw_description(EntityType, Id, Name, Description)).').
 printall(yw_description(_,_,_,_)).
 
-rule_banner('yw_assertion(program_id, program_name, program_qualifed_name, subject_id, subject_name, subject_qualified_name, predicate, object_id, object_name, object_qualified_name).').
-printall(yw_assertion(_,_,_,_,_,_,_,_,_,_)).
+rule_banner('yw_assertion(program_id, program_name, subject_id, subject_name, predicate, object_id, object_name).').
+printall(yw_assertion(_,_,_,_,_,_,_)).
 
 END_XSB_STDIN

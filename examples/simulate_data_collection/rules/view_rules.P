@@ -103,8 +103,8 @@ yw_parent_workflow(ProgramId, WorkflowId, WorkflowName) :-
 yw_parent_workflow(ProgramId, nil, nil) :-
     not has_subprogram(_,ProgramId).
 
-yw_assertion(ProgramId, ProgramName, ProgramQualifedName, SubjectId, SubjectName, SubjectQualifiedName, Predicate, ObjectId, ObjectName, ObjectQualifiedName) :-
+yw_assertion(ProgramId, ProgramName, SubjectId, SubjectName, Predicate, ObjectId, ObjectName) :-
     assert(ProgramId, SubjectId, Predicate, ObjectId),
-    program(ProgramId, ProgramName, ProgramQualifedName, _, _),
-    data(SubjectId, SubjectName, SubjectQualifiedName),
-    data(ObjectId, ObjectName, ObjectQualifiedName).
+    program(ProgramId, ProgramName, _, _, _),
+    data(SubjectId, SubjectName, _),
+    data(ObjectId, ObjectName, _).
