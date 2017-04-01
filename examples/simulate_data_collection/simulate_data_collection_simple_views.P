@@ -1,0 +1,10 @@
+
+
+%---------------------------------------------------------------------------------------------------
+% FACT: input(WorkflowInput).
+%...................................................................................................
+input(sample_spreadsheet).
+input(calibration_image).
+input(cassette_id).
+input(sample_score_cutoff).
+input(data_redundancy).

@@ -1,0 +1,10 @@
+
+
+:- table input/1.
+input(StepInDataName) :-
+    yw_inflow(_, _, WorkflowId, _, _, StepInDataName, _, _),
+    yw_workflow(WorkflowId, _, ParentWorkflowId, _, _, _),
+    ParentWorkflowId = nil.
+
+
+

@@ -64,11 +64,14 @@ recon: $(RECON_FACTS)
 
 # make views ------------------------------------------------------------------
 YW_VIEWS = $(SCRIPT_BASE)_views.P
+SIMPLE_VIEWS = $(SCRIPT_BASE)_simple_views.P
+ALL_VIEWS = $(YW_VIEWS) $(SIMPLE_VIEWS)
 
-$(YW_VIEWS): $(YW_FACTS)
+$(ALL_VIEWS): $(YW_FACTS)
 	bash rules/materialize_views.sh $(SCRIPT_BASE) > $(YW_VIEWS)
+	bash rules/materialize_simple_views.sh $(SCRIPT_BASE) > $(SIMPLE_VIEWS)
 
-views: $(YW_VIEWS)
+views: $(ALL_VIEWS)
 #------------------------------------------------------------------------------
 
 # make infer ------------------------------------------------------------------
@@ -95,5 +98,5 @@ XWAM_FILES = ./*.xwam ./rules/*.xwam
 
 clean:
 	rm -rf $(SCRIPT_STDOUT) $(SCRIPT_RUN_DIR) $(YW_GRAPHS) $(YW_FACTS) \
-	$(RECON_FACTS) $(YW_VIEWS) $(INFERRED_DEPS) $(ASSERTION_REPORT) $(XWAM_FILES)
+	$(RECON_FACTS) $(ALL_VIEWS) $(INFERRED_DEPS) $(ASSERTION_REPORT) $(XWAM_FILES)
 #------------------------------------------------------------------------------
