@@ -1,10 +1,45 @@
 
 
-:- table input/1.
-input(StepInDataName) :-
-    yw_inflow(_, _, WorkflowId, _, _, StepInDataName, _, _),
-    yw_workflow(WorkflowId, _, ParentWorkflowId, _, _, _),
-    ParentWorkflowId = nil.
+top_workflow(W) :-
+    yw_workflow(W, _, nil, _, _, _).
+
+:- table data/1.
+data(Data) :-
+    yw_data(_, Data, W, _),
+    top_workflow(W).
+
+:- table step/1.
+step(Step) :-
+    yw_program(_, Step, W, _, _, _),
+    top_workflow(W).
+
+:- table workflow_in/1.
+workflow_in(Data) :-
+    yw_inflow(_, _, W, _, _, Data, _, _),
+    top_workflow(W).
+
+:- table workflow_out/1.
+workflow_out(Data) :-
+    yw_outflow(_, _, _, Data, W, _, _, _),
+    top_workflow(W).
+
+:- table step_in/2.
+step_in(Data, Step) :- 
+    yw_step_input(StepId, Step, _, _, _, _, Data),
+    yw_program(StepId,_,W,_,_,_),
+    top_workflow(W).
+
+:- table step_out/2.
+step_out(Step, Data) :- 
+    yw_step_output(StepId, Step, _, _, _, _, Data),
+    yw_program(StepId,_,W,_,_,_),
+    top_workflow(W).
+
+:- table flow/2.
+flow(Step, Data) :-
+    step_out(Step, Data).
+flow(Data, Step) :-
+    step_in(Data, Step).
 
 
 
