@@ -41,5 +41,14 @@ flow(Step, Data) :-
 flow(Data, Step) :-
     step_in(Data, Step).
 
+:- table assert/3.
+assert(Subject, Predicate, Object) :-
+    yw_assertion(W, _, _, Subject, Predicate, _, Object),
+    top_workflow(W).
+assert(Subject, Predicate, Object) :-
+    yw_assertion(StepId, _, _, Subject, Predicate, _, Object),
+    yw_workflow_step(StepId, _, W, _, _, _),
+    top_workflow(W).
+
 
 

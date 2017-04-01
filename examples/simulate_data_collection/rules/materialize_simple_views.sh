@@ -32,4 +32,7 @@ printall(step_out(_, _)).
 rule_banner('flow(From, To)').
 printall(flow(_, _)).
 
+rule_banner('assert(Subject, Predicate, Object)').
+printall(assert(_, _, _)).
+
 END_XSB_STDIN
