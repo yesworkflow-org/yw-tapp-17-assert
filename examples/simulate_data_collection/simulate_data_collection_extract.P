@@ -20,11 +20,11 @@ annotation(16, 1, 19, 'desc', '@desc', 'The corrected diffraction images collect
 annotation(17, 1, 20, 'out', '@out', 'run_log').
 annotation(18, 1, 21, 'out', '@out', 'collection_log').
 annotation(19, 1, 22, 'out', '@out', 'rejection_log').
-annotation(20, 1, 23, 'assert', '@assert', 'raw_image depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet').
+annotation(20, 1, 23, 'assert', '@assert', 'raw_image depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image').
 annotation(21, 1, 24, 'assert', '@assert', 'corrected_image depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image').
 annotation(22, 1, 25, 'assert', '@assert', 'run_log depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image').
 annotation(23, 1, 26, 'assert', '@assert', 'collection_log depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image').
-annotation(24, 1, 27, 'assert', '@assert', 'rejection_log depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet').
+annotation(24, 1, 27, 'assert', '@assert', 'rejection_log depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image').
 annotation(25, 1, 33, 'begin', '@begin', 'initialize_run').
 annotation(26, 1, 33, 'desc', '@desc', 'Create run directory and initialize log files.').
 annotation(27, 1, 34, 'param', '@param', 'cassette_id').

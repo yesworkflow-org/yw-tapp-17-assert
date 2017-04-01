@@ -9,6 +9,7 @@ xsb --quietload --noprompt --nofeedback --nobanner << END_XSB_STDIN
 ['$EXTRACT_FACTS'].
 ['$MODEL_FACTS'].
 ['rules/general_rules'].
+['rules/yw_rules'].
 ['rules/view_rules'].
 
 %set_prolog_flag(unknown, fail).
@@ -40,8 +41,8 @@ printall(yw_step_input(_,_,_,_,_,_,_)).
 rule_banner('yw_step_output(ProgramId, ProgramName, PortType, PortId, PortName, DataId, DataName).').
 printall(yw_step_output(_,_,_,_,_,_,_)).
 
-rule_banner('yw_inflow(WorkflowId, WorkflowName, DataId, DataName, ProgramId, ProgramName).').
-printall(yw_inflow(_,_,_,_,_,_)).
+rule_banner('yw_inflow(WorkflowInDataId, WorkflowInDataName, WorkflowId, WorkflowName, StepInDataId, StepInDataName, StepId, StepName).').
+printall(yw_inflow(_,_,_,_,_,_,_,_)).
 
 rule_banner('yw_flow(SourceProgramId, SourceProgramName, SourcePortId, SourcePortName, DataId, DataName, SinkPortId, SinkPortName, SinkProgramId, SinkProgramName).').
 printall(yw_flow(_,_,_,_,_,_,_,_,_,_)).
@@ -57,5 +58,8 @@ printall(yw_description(_,_,_,_)).
 
 rule_banner('yw_assertion(program_id, program_name, subject_id, subject_name, predicate, object_id, object_name).').
 printall(yw_assertion(_,_,_,_,_,_,_)).
+
+rule_banner('yw_workflow_output_downstream_of_input(WorkflowId, WorkflowName, OutputDataId, OutputDataName, UpstreamInputId, UpstreamInputName).').
+printall(yw_workflow_output_downstream_of_input(_, _, _, _, _, _)).
 
 END_XSB_STDIN

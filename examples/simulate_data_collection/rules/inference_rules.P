@@ -13,6 +13,8 @@ workflow_output_independent_of_input(WorkflowName, WorkflowOutDataName, Workflow
     yw_outflow(_, _, StepOutDataId, _, WorkflowId, _, _, WorkflowOutDataName),
     yw_inflow(WorkflowId, _, StepInDataId, WorkflowInDatatName, _, _),
     not yw_data_downstream(StepInDataId, StepOutDataId).
+
+
     
 
 

@@ -173,18 +173,18 @@ yw_step_output(8,log_average_image_intensity,out,54,collection_log,31,collection
 
 
 %---------------------------------------------------------------------------------------------------
-% FACT: yw_inflow(WorkflowId, WorkflowName, DataId, DataName, ProgramId, ProgramName).
+% FACT: yw_inflow(WorkflowInDataId, WorkflowInDataName, WorkflowId, WorkflowName, StepInDataId, StepInDataName, StepId, StepName).
 %...................................................................................................
-yw_inflow(1,simulate_data_collection,12,sample_score_cutoff,2,initialize_run).
-yw_inflow(1,simulate_data_collection,11,cassette_id,2,initialize_run).
-yw_inflow(1,simulate_data_collection,11,cassette_id,3,load_screening_results).
-yw_inflow(1,simulate_data_collection,14,sample_spreadsheet,3,load_screening_results).
-yw_inflow(1,simulate_data_collection,17,data_redundancy,4,calculate_strategy).
-yw_inflow(1,simulate_data_collection,12,sample_score_cutoff,4,calculate_strategy).
-yw_inflow(1,simulate_data_collection,11,cassette_id,5,log_rejected_sample).
-yw_inflow(1,simulate_data_collection,11,cassette_id,6,collect_data_set).
-yw_inflow(1,simulate_data_collection,27,calibration_image,7,transform_images).
-yw_inflow(1,simulate_data_collection,11,cassette_id,8,log_average_image_intensity).
+yw_inflow(3,data_redundancy,1,simulate_data_collection,17,data_redundancy,4,calculate_strategy).
+yw_inflow(2,sample_score_cutoff,1,simulate_data_collection,12,sample_score_cutoff,2,initialize_run).
+yw_inflow(2,sample_score_cutoff,1,simulate_data_collection,12,sample_score_cutoff,4,calculate_strategy).
+yw_inflow(1,cassette_id,1,simulate_data_collection,11,cassette_id,2,initialize_run).
+yw_inflow(1,cassette_id,1,simulate_data_collection,11,cassette_id,3,load_screening_results).
+yw_inflow(1,cassette_id,1,simulate_data_collection,11,cassette_id,5,log_rejected_sample).
+yw_inflow(1,cassette_id,1,simulate_data_collection,11,cassette_id,6,collect_data_set).
+yw_inflow(1,cassette_id,1,simulate_data_collection,11,cassette_id,8,log_average_image_intensity).
+yw_inflow(5,calibration_image,1,simulate_data_collection,27,calibration_image,7,transform_images).
+yw_inflow(4,sample_spreadsheet,1,simulate_data_collection,14,sample_spreadsheet,3,load_screening_results).
 
 
 %---------------------------------------------------------------------------------------------------
@@ -369,6 +369,7 @@ yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',1,cassette_id).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',2,sample_score_cutoff).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',3,data_redundancy).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',4,sample_spreadsheet).
+yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',5,calibration_image).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',1,cassette_id).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',2,sample_score_cutoff).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',3,data_redundancy).
@@ -388,3 +389,32 @@ yw_assertion(1,simulate_data_collection,10,rejection_log,'depends-on',1,cassette
 yw_assertion(1,simulate_data_collection,10,rejection_log,'depends-on',2,sample_score_cutoff).
 yw_assertion(1,simulate_data_collection,10,rejection_log,'depends-on',3,data_redundancy).
 yw_assertion(1,simulate_data_collection,10,rejection_log,'depends-on',4,sample_spreadsheet).
+yw_assertion(1,simulate_data_collection,10,rejection_log,'depends-on',5,calibration_image).
+
+
+%---------------------------------------------------------------------------------------------------
+% FACT: yw_workflow_output_downstream_of_input(WorkflowId, WorkflowName, OutputDataId, OutputDataName, UpstreamInputId, UpstreamInputName).
+%...................................................................................................
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,10,rejection_log,1,cassette_id).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,10,rejection_log,2,sample_score_cutoff).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,10,rejection_log,4,sample_spreadsheet).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,10,rejection_log,3,data_redundancy).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,9,collection_log,5,calibration_image).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,9,collection_log,3,data_redundancy).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,9,collection_log,4,sample_spreadsheet).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,9,collection_log,2,sample_score_cutoff).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,9,collection_log,1,cassette_id).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,8,run_log,5,calibration_image).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,8,run_log,3,data_redundancy).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,8,run_log,4,sample_spreadsheet).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,8,run_log,2,sample_score_cutoff).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,8,run_log,1,cassette_id).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,7,corrected_image,5,calibration_image).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,7,corrected_image,3,data_redundancy).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,7,corrected_image,4,sample_spreadsheet).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,7,corrected_image,2,sample_score_cutoff).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,7,corrected_image,1,cassette_id).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,6,raw_image,3,data_redundancy).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,6,raw_image,4,sample_spreadsheet).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,6,raw_image,2,sample_score_cutoff).
+yw_workflow_output_downstream_of_input(1,simulate_data_collection,6,raw_image,1,cassette_id).

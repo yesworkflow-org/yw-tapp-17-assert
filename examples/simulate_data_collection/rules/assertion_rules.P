@@ -9,5 +9,10 @@ missing_workflow_output_input_dependency(WorkflowName, WorkflowOutDataName, Work
     workflow_output_depends_on_input(WorkflowName, WorkflowOutDataName, WorkflowInDataName),
     not assert_workflow_output_depends_on_input(WorkflowName, WorkflowOutDataName, WorkflowInDataName).
     
+:- table dependency_unsupported_by_dataflow_paths/3.
+dependency_unsupported_by_dataflow_paths(WorkflowName, WorkflowOutput, Dependency) :-
+    yw_workflow(WorkflowId, WorkflowName, _, _, _, _),
+    yw_assertion(WorkflowId, WorkflowName, _, WorkflowOutput, 'depends-on', _, Dependency),
+    not yw_workflow_output_downstream_of_input(WorkflowId, WorkflowName, _, WorkflowOutput, _, Dependency).
 
 

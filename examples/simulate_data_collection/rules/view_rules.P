@@ -57,11 +57,11 @@ yw_step_output(ProgramId, ProgramName, PortType, PortId, PortName, DataId, DataN
     data(DataId,DataName,_),
     PortType = out.
 
-yw_inflow(WorkflowId, WorkflowName, StepInputDataId, StepInputDataName, StepId, StepName) :-
-    yw_step_input(StepId, StepName, _, _, _, StepInputDataId, StepInputDataName),
-    yw_step_input(WorkflowId, WorkflowName, _, _, _, _, StepInputDataName),
+yw_inflow(WorkflowInDataId, WorkflowInDataName, WorkflowId, WorkflowName, StepInDataId, StepInDataName, StepId, StepName) :-
+    yw_step_input(WorkflowId, WorkflowName, _, _, _, WorkflowInDataId, WorkflowInDataName),
+    WorkflowInDataName = StepInDataName,
     yw_parent_workflow(StepId, WorkflowId, _),
-    data(StepInputDataId, StepInputDataName, _).
+    yw_step_input(StepId, StepName, _, _, _, StepInDataId, StepInDataName).
 
 yw_flow(SourceProgramId, SourceProgramName, SourcePortId, SourcePortName, DataId, DataName, SinkPortId, SinkPortName, SinkProgramId, SinkProgramName) :-
     yw_step_output(SourceProgramId, SourceProgramName, _, SourcePortId, SourcePortName, DataId, DataName),
@@ -70,9 +70,8 @@ yw_flow(SourceProgramId, SourceProgramName, SourcePortId, SourcePortName, DataId
 yw_outflow(StepId, StepName, StepOutDataId, StepOutDataName, WorkflowId, WorkflowName, WorkflowOutDataId, WorkflowOutDataName) :-
     yw_step_output(WorkflowId, WorkflowName, _, _, _, WorkflowOutDataId, WorkflowOutDataName),
     WorkflowOutDataName = StepOutDataName,
-    yw_step_output(StepId, StepName, _, _, _, StepOutDataId, StepOutDataName),
     yw_parent_workflow(StepId, WorkflowId, _),
-    data(StepOutDataId, StepOutDataName,_).
+    yw_step_output(StepId, StepName, _, _, _, StepOutDataId, StepOutDataName).
 
 yw_qualified_name(EntityType, Id, QualifiedName) :-
     program(Id, _, QualifiedName, _, _),
@@ -108,3 +107,11 @@ yw_assertion(ProgramId, ProgramName, SubjectId, SubjectName, Predicate, ObjectId
     program(ProgramId, ProgramName, _, _, _),
     data(SubjectId, SubjectName, _),
     data(ObjectId, ObjectName, _).
+
+:- table yw_workflow_output_downstream_of_input/6.
+yw_workflow_output_downstream_of_input(WorkflowId, WorkflowName, OutputDataId, OutputDataName, WorkflowInDataId, WorkflowInDataName) :-
+    yw_workflow(WorkflowId, WorkflowName, _, _, _, _),
+    yw_step_output(WorkflowId, _, _,_, _, OutputDataId, OutputDataName),
+    yw_outflow(_, _, StepOutDataId, _, WorkflowId, _, OutputDataId, _),
+    yw_data_downstream(StepInDataId, StepOutDataId),
+    yw_inflow(WorkflowInDataId, WorkflowInDataName, WorkflowId, _, StepInDataId, _, _, _).

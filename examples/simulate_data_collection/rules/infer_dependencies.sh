@@ -16,10 +16,10 @@ xsb --quietload --noprompt --nofeedback --nobanner << END_XSB_STDIN
 
 %set_prolog_flag(unknown, fail).
 
-rule_banner('workflow_output_depends_on_input(Workflow, Output, Input).').
-printall(workflow_output_depends_on_input(_,_,_)).
+%rule_banner('workflow_output_depends_on_input(Workflow, Output, Input).').
+%printall(workflow_output_depends_on_input(_,_,_)).
 
-rule_banner('workflow_output_independent_of_input(Workflow, Output, Input).').
-printall(workflow_output_independent_of_input(_,_,_)).
+%rule_banner('workflow_output_independent_of_input(Workflow, Output, Input).').
+%printall(workflow_output_independent_of_input(_,_,_)).
 
 END_XSB_STDIN

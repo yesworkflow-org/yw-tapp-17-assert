@@ -415,6 +415,7 @@ assert(1, 6, 'depends-on', 1).
 assert(1, 6, 'depends-on', 2).
 assert(1, 6, 'depends-on', 3).
 assert(1, 6, 'depends-on', 4).
+assert(1, 6, 'depends-on', 5).
 assert(1, 7, 'depends-on', 1).
 assert(1, 7, 'depends-on', 2).
 assert(1, 7, 'depends-on', 3).
@@ -434,4 +435,5 @@ assert(1, 10, 'depends-on', 1).
 assert(1, 10, 'depends-on', 2).
 assert(1, 10, 'depends-on', 3).
 assert(1, 10, 'depends-on', 4).
+assert(1, 10, 'depends-on', 5).
 

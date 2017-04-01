@@ -20,11 +20,11 @@ from datetime import datetime
 @out run_log
 @out collection_log
 @out rejection_log
-@assert raw_image depends-on       cassette_id sample_score_cutoff data_redundancy sample_spreadsheet
+@assert raw_image depends-on       cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
 @assert corrected_image depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
 @assert run_log depends-on         cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
 @assert collection_log depends-on  cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
-@assert rejection_log depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet
+@assert rejection_log depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
 """
 
 def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, calibration_image_file):
