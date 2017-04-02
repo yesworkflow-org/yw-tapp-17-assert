@@ -12,7 +12,8 @@ n(X) :- g(_,_,X).
 % R-equivalence(X,Y) means R[2](X) = R.2(Y)
 
 % r(Down, Up): upstream of Y is X, i.e., Y may_depend_on X
-r(Y,X) :- tc(flow,X,Y).    % let r/2 = up/2 = flow+/2
+% r(Y,X) :- tc(flow,X,Y).    % let r/2 = up/2 = flow+/2
+r(Y,X) :- tc(flow,X,Y).    % variant: let's use only DIRECT edges (not transitive)
 
 % equivalence(X,Y) means R[X] = R[Y]
 r_eqv(X,Y) :- r_included(X,Y), r_included(Y,X), X!=Y.
@@ -45,7 +46,8 @@ viz_node(sink,X) :- workflow_out(X).
 
 viz_edge(default,X,Y) :- g(flow,X,Y).
 
-viz_edge(upEqv,X,Y) :- r_eqv(X,Y), not workflow_in(X), not workflow_in(Y), X>Y.
+% viz_edge(upEqv,X,Y) :- r_eqv(X,Y), not workflow_in(X), not workflow_in(Y), X>Y.
+viz_edge(upEqv,X,Y) :- r_eqv(X,Y). % , X>Y.
 
 
 % viz_edge(delta,X,Y) :- tc(flow,X,Y), not g(flow,X,Y).
