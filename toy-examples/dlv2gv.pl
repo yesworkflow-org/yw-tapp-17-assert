@@ -107,7 +107,7 @@ dot_node(data,'style="filled,rounded" fillcolor="#FFFFCC"').
 % YW edges
 dot_edge(default,'color="#000000"').  
 dot_edge(delta,'color="#888888" style=dashed constraint=true penwidth=0.2').  
-dot_edge(upEqv,'constraint=true color="#FF0000" dir=none penwidth=3').  
+dot_edge(upEqv,'constraint=false color="#FF0000" dir=none penwidth=3').  
 
 % Write styled GV node
 gv_node(L, N) :-
