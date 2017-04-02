@@ -1,0 +1,54 @@
+% TRANSITIVE CLOSURE of (reified) relation R
+tc(R,X,Y) :- g(R,X,Y).
+tc(R,X,Y) :- g(R,X,Z), tc(R,Z,Y).
+
+% GRAPH RELATIONS to use:
+g(flow,X,Y) :- flow(X,Y).
+
+% NODES
+n(X) :- g(_,X,_).
+n(X) :- g(_,_,X).
+    
+% R-equivalence(X,Y) means R[2](X) = R.2(Y)
+
+% r(Down, Up): upstream of Y is X, i.e., Y may_depend_on X
+r(Y,X) :- tc(flow,X,Y).    % let r/2 = up/2 = flow+/2
+
+% equivalence(X,Y) means R[X] = R[Y]
+r_eqv(X,Y) :- r_included(X,Y), r_included(Y,X), X!=Y.
+
+r_included(Y2,Y1) :- n(Y1), n(Y2), not not_r_included(Y2,Y1).
+
+% R[Y2] !< R[Y1] 
+not_r_included(Y2,Y1) :- n(Y2), r(Y1,X), not r(Y2,X).
+
+
+% up(X) is included in up(Y) 
+
+% up(Y1) \not\subseteq up(Y2) 
+
+% calculate equivalence classes
+
+% NODES
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% STYLESHEET relations for Graphviz:
+
+% viz_node(data,X) :- data(X), upEqv(X,_).
+viz_node(data,X) :- data(X), not workflow_in(X), not workflow_out(X).
+viz_node(step,X) :- step(X).
+
+
+viz_node(source,X) :- workflow_in(X).
+viz_node(sink,X) :- workflow_out(X).
+
+viz_edge(default,X,Y) :- g(flow,X,Y).
+
+viz_edge(upEqv,X,Y) :- r_eqv(X,Y), X<Y.
+
+
+% viz_edge(delta,X,Y) :- tc(flow,X,Y), not g(flow,X,Y).
+% viz_same(X) :- workflow_in(X).
+
+

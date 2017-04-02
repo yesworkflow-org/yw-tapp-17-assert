@@ -1,0 +1,2 @@
+{rank=min; cassette_id data_redundancy sample_score_cutoff sample_spreadsheet calibration_image}
+{rank=max; raw_image corrected_image collection_log run_log rejection_log} 

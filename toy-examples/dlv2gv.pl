@@ -7,8 +7,9 @@
 :- discontiguous(dot_edge/2).  % .. and GV-edges
 
 % EXAMPLE FOLDERS with edb.dlv and idb.dlv files :
-example('pm').   % Anand's toy process model
+% example('pm').   % Anand's toy process model
 example('c3c4'). % DataONE C3C4 example (based on Yang's YW annotations)
+example('simulate_data_collection').
 
 % RUN EXAMPLE in folder F
 go(F) :-
@@ -63,10 +64,10 @@ gv_write_model(Xs) :-
 
 % portray/1 intercept predicate for pretty-printing (GV-reformatted) output
 portray(viz_node(L,N))  :-
-%    !,
+    !,
     gv_node(L,N).
 portray(viz_edge(L,F,T))  :-
-%    !,
+    !,
     gv_edge(F,L,T).
 portray(_).
 
@@ -98,15 +99,15 @@ dot_edge(write,'color="#00BB00"').
 dot_edge(wasControlledBy,'color="#0000BB" dir=none').  
 
 % YW nodes
-dot_node(source,'style="filled,rounded" fillcolor="#FFFFFF"').
-dot_node(sink,'style="filled,rounded" fillcolor="#EEEEEE"').
+dot_node(source,'style="filled,rounded" fillcolor="#EEEEFF"').
+dot_node(sink,'style="filled,rounded" fillcolor="#FFEEEE"').
 dot_node(step,'style="filled" fontname=Courier fillcolor="#CCFFCC"').
 dot_node(data,'style="filled,rounded" fillcolor="#FFFFCC"').
 
 % YW edges
 dot_edge(default,'color="#000000"').  
 dot_edge(delta,'color="#888888" style=dashed constraint=true penwidth=0.2').  
-dot_edge(upEqv,'constraint=false color="#FF0000" dir=none penwidth=3').  
+dot_edge(upEqv,'constraint=true color="#FF0000" dir=none penwidth=3').  
 
 % Write styled GV node
 gv_node(L, N) :-
