@@ -8,7 +8,7 @@
 
 % EXAMPLE FOLDERS with edb.dlv and idb.dlv files :
 % example('pm').   % Anand's toy process model
-example('c3c4'). % DataONE C3C4 example (based on Yang's YW annotations)
+%example('c3c4'). % DataONE C3C4 example (based on Yang's YW annotations)
 example('simulate_data_collection').
 
 % RUN EXAMPLE in folder F
@@ -107,7 +107,7 @@ dot_node(data,'style="filled,rounded" fillcolor="#FFFFCC"').
 % YW edges
 dot_edge(default,'color="#000000"').  
 dot_edge(delta,'color="#888888" style=dashed constraint=true penwidth=0.2').  
-dot_edge(upEqv,'constraint=true color="#FF0000" dir=none penwidth=3').  
+dot_edge(upEqv,'constraint=false color="#FF0000" dir=none penwidth=3').  
 
 % Write styled GV node
 gv_node(L, N) :-
