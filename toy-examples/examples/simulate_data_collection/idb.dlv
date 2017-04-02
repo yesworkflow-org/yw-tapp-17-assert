@@ -13,7 +13,7 @@ n(X) :- g(_,_,X).
 
 % r(Down, Up): upstream of Y is X, i.e., Y may_depend_on X
 % r(Y,X) :- tc(flow,X,Y).    % let r/2 = up/2 = flow+/2
-r(Y,X) :- tc(flow,X,Y).    % variant: let's use only DIRECT edges (not transitive)
+r(Y,X) :- g(flow,X,Y).    % variant: let's use only DIRECT edges (not transitive)
 
 % equivalence(X,Y) means R[X] = R[Y]
 r_eqv(X,Y) :- r_included(X,Y), r_included(Y,X), X!=Y.
