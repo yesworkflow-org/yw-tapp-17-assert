@@ -3,7 +3,6 @@
 %---------------------------------------------------------------------------------------------------
 % FACT: data(Data)
 %...................................................................................................
-data(num_images).
 data(cassette_id).
 data(energies).
 data(sample_id).
@@ -24,6 +23,7 @@ data(sample_name).
 data(sample_quality).
 data(accepted_sample).
 data(rejected_sample).
+data(num_images).
 
 
 %---------------------------------------------------------------------------------------------------
@@ -61,7 +61,6 @@ workflow_out(raw_image).
 %---------------------------------------------------------------------------------------------------
 % FACT: step_in(Data, Step)
 %...................................................................................................
-step_in(num_images,collect_data_set).
 step_in(cassette_id,log_average_image_intensity).
 step_in(cassette_id,collect_data_set).
 step_in(cassette_id,log_rejected_sample).
@@ -86,6 +85,7 @@ step_in(sample_name,calculate_strategy).
 step_in(sample_quality,calculate_strategy).
 step_in(accepted_sample,collect_data_set).
 step_in(rejected_sample,log_rejected_sample).
+step_in(num_images,collect_data_set).
 
 
 %---------------------------------------------------------------------------------------------------
@@ -115,7 +115,6 @@ step_out(initialize_run,run_log).
 %---------------------------------------------------------------------------------------------------
 % FACT: flow(From, To)
 %...................................................................................................
-flow(num_images,collect_data_set).
 flow(calculate_strategy,accepted_sample).
 flow(calculate_strategy,rejected_sample).
 flow(calculate_strategy,num_images).
@@ -159,33 +158,71 @@ flow(rejected_sample,log_rejected_sample).
 flow(load_screening_results,sample_name).
 flow(load_screening_results,sample_quality).
 flow(load_screening_results,run_log).
+flow(num_images,collect_data_set).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: assert(Subject, Predicate, Object)
 %...................................................................................................
-assert(rejection_log,'depends-on',calibration_image).
-assert(rejection_log,'depends-on',sample_spreadsheet).
-assert(rejection_log,'depends-on',data_redundancy).
-assert(rejection_log,'depends-on',sample_score_cutoff).
-assert(rejection_log,'depends-on',cassette_id).
-assert(collection_log,'depends-on',calibration_image).
-assert(collection_log,'depends-on',sample_spreadsheet).
-assert(collection_log,'depends-on',data_redundancy).
-assert(collection_log,'depends-on',sample_score_cutoff).
-assert(collection_log,'depends-on',cassette_id).
-assert(run_log,'depends-on',calibration_image).
-assert(run_log,'depends-on',sample_spreadsheet).
-assert(run_log,'depends-on',data_redundancy).
-assert(run_log,'depends-on',sample_score_cutoff).
-assert(run_log,'depends-on',cassette_id).
-assert(corrected_image,'depends-on',calibration_image).
-assert(corrected_image,'depends-on',sample_spreadsheet).
-assert(corrected_image,'depends-on',data_redundancy).
-assert(corrected_image,'depends-on',sample_score_cutoff).
-assert(corrected_image,'depends-on',cassette_id).
+assert(energies,'depends-on',sample_score_cutoff).
+assert(energies,'depends-on',sample_quality).
+assert(sample_id,'takes-value-of',accepted_sample).
+assert(energy,'derives-from',energies).
+assert(frame_number,'depends-on',num_images).
+assert(total_intensity,'derives-from',corrected_image).
+assert(pixel_count,'derives-from',corrected_image).
+assert(raw_image,'acquired-using',energies).
+assert(raw_image,'depends-on',accepted_sample).
+assert(raw_image,'depends-on',num_images).
 assert(raw_image,'depends-on',calibration_image).
 assert(raw_image,'depends-on',sample_spreadsheet).
 assert(raw_image,'depends-on',data_redundancy).
 assert(raw_image,'depends-on',sample_score_cutoff).
 assert(raw_image,'depends-on',cassette_id).
+assert(corrected_image,'depends-on',sample_spreadsheet).
+assert(corrected_image,'depends-on',data_redundancy).
+assert(corrected_image,'depends-on',sample_score_cutoff).
+assert(corrected_image,'depends-on',cassette_id).
+assert(corrected_image,'derives-from',calibration_image).
+assert(corrected_image,'derives-from',raw_image).
+assert(run_log,'depends-on',cassette_id).
+assert(run_log,'depends-on',energies).
+assert(run_log,'depends-on',sample_id).
+assert(run_log,'depends-on',energy).
+assert(run_log,'depends-on',sample_score_cutoff).
+assert(run_log,'depends-on',frame_number).
+assert(run_log,'depends-on',data_redundancy).
+assert(run_log,'depends-on',sample_spreadsheet).
+assert(run_log,'depends-on',calibration_image).
+assert(run_log,'depends-on',raw_image).
+assert(run_log,'depends-on',accepted_sample).
+assert(run_log,'depends-on',num_images).
+assert(collection_log,'depends-on',cassette_id).
+assert(collection_log,'depends-on',sample_id).
+assert(collection_log,'depends-on',sample_score_cutoff).
+assert(collection_log,'depends-on',frame_number).
+assert(collection_log,'depends-on',data_redundancy).
+assert(collection_log,'depends-on',total_intensity).
+assert(collection_log,'depends-on',sample_spreadsheet).
+assert(collection_log,'depends-on',pixel_count).
+assert(collection_log,'depends-on',calibration_image).
+assert(collection_log,'depends-on',corrected_image).
+assert(rejection_log,'depends-on',rejected_sample).
+assert(rejection_log,'depends-on',calibration_image).
+assert(rejection_log,'depends-on',sample_spreadsheet).
+assert(rejection_log,'depends-on',data_redundancy).
+assert(rejection_log,'depends-on',sample_score_cutoff).
+assert(rejection_log,'depends-on',cassette_id).
+assert(sample_name,'acquired-using',sample_spreadsheet).
+assert(sample_name,'acquired-using',cassette_id).
+assert(sample_quality,'acquired-using',sample_spreadsheet).
+assert(sample_quality,'acquired-using',cassette_id).
+assert(accepted_sample,'depends-on',sample_score_cutoff).
+assert(accepted_sample,'depends-on',sample_quality).
+assert(accepted_sample,'takes-value-of',sample_name).
+assert(rejected_sample,'depends-on',sample_score_cutoff).
+assert(rejected_sample,'depends-on',sample_quality).
+assert(rejected_sample,'takes-value-of',sample_name).
+assert(num_images,'depends-on',sample_score_cutoff).
+assert(num_images,'depends-on',sample_quality).
+assert(num_images,'derives-from',data_redundancy).

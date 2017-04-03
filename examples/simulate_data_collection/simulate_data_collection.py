@@ -20,11 +20,12 @@ from datetime import datetime
 @out run_log
 @out collection_log
 @out rejection_log
-@assert raw_image depends-on       cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
-@assert corrected_image depends-on cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
-@assert run_log depends-on         cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
-@assert collection_log depends-on  cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
-@assert rejection_log depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
+@assert raw_image       depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
+@assert corrected_image derives-from raw_image calibration_image
+@assert corrected_image depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet
+@assert run_log         depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
+@assert collection_log  depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
+@assert rejection_log   depends-on   cassette_id sample_score_cutoff data_redundancy sample_spreadsheet calibration_image
 """
 
 def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, calibration_image_file):
@@ -36,6 +37,7 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
     @out run_log @uri file:run/run_log.txt
                  @log {timestamp} Processing samples in cassette {cassette_id}
                  @log Sample quality cutoff: {sample_score_cutoff}
+    @assert run_log depends-on cassette_id sample_score_cutoff
     """
     if not os.path.exists('run'):
         os.makedirs('run')
@@ -57,6 +59,9 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
         @out sample_name @out sample_quality
         @out run_log @uri file:run/run_log.txt
                      @log {timestamp} Sample {sample_id} had score of {sample_quality}
+        @assert sample_name acquired-using cassette_id sample_spreadsheet
+        @assert sample_quality acquired-using cassette_id sample_spreadsheet
+        @assert run_log depends-on cassette_id sample_score_cutoff
         """
         sample_spreadsheet_file = 'cassette_{0}_spreadsheet.csv'.format(cassette_id)
         for sample_name, sample_quality in spreadsheet_rows(sample_spreadsheet_file):
@@ -69,6 +74,13 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
             @begin calculate_strategy @desc Reject unsuitable crystals and compute \n best data sets to collect for accepted crystals.
             @param sample_score_cutoff @param data_redundancy @param sample_name @param sample_quality
             @out accepted_sample @out rejected_sample @out num_images @out energies
+            @assert accepted_sample takes-value-of sample_name
+            @assert accepted_sample depends-on sample_quality sample_score_cutoff
+            @assert rejected_sample takes-value-of sample_name
+            @assert rejected_sample depends-on sample_quality sample_score_cutoff
+            @assert energies depends-on sample_quality sample_score_cutoff
+            @assert num_images derives-from data_redundancy
+            @assert num_images depends-on sample_quality sample_score_cutoff
             """
             accepted_sample, rejected_sample, num_images, energies = calculate_strategy(sample_name, sample_quality, sample_score_cutoff, data_redundancy)
             """
@@ -78,7 +90,9 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
             """
             @begin log_rejected_sample @desc Record which samples were rejected.
             @param cassette_id  @param rejected_sample
-			@out rejection_log @uri file:run/rejected_samples.txt @log Rejected sample {rejected_sample} in cassette {cassette_id}"""
+			@out rejection_log @uri file:run/rejected_samples.txt @log Rejected sample {rejected_sample} in cassette {cassette_id}
+            @assert rejection_log depends-on rejected_sample
+            """
             if (rejected_sample is not None):
                 run_log.write("Rejected sample {0}".format(rejected_sample))
                 with open('run/rejected_samples.txt', 'at') as rejection_log:
@@ -99,7 +113,12 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
             @out run_log @uri file:run/run_log.txt
                          @log {timestamp} Collecting data set for sample {sample_id}
                          @log {timestamp} Collecting image {raw_image_path}
-
+            @assert raw_image acquired-using energies
+            @assert raw_image depends-on num_images accepted_sample
+            @assert frame_number depends-on num_images
+            @assert sample_id takes-value-of accepted_sample
+            @assert energy derives-from energies
+            @assert run_log depends-on energies num_images accepted_sample cassette_id
             """
             run_log.write("Collecting data set for sample {0}".format(accepted_sample))
             sample_id = accepted_sample
@@ -118,6 +137,10 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
                 @out total_intensity  @out pixel_count
                 @out run_log @uri file:run/run_log.txt
                              @log {timestamp} Wrote transformed image {corrected_image_path}
+                @assert corrected_image derives-from raw_image calibration_image
+                @assert pixel_count derives-from corrected_image
+                @assert total_intensity derives-from corrected_image
+                @assert run_log depends-on frame_number sample_id energy raw_image
                 """
                 (total_intensity, pixel_count, corrected_image_file) = transform_image(raw_image_file, 'run/data/{0}/{0}_{1}eV_{2:03d}.img'.format(sample_id, energy, frame_number), calibration_image_file)
                 run_log.write("Wrote transformed image {0}".format(corrected_image_file))
@@ -131,7 +154,7 @@ def simulate_data_collection(cassette_id, sample_score_cutoff, data_redundancy, 
                 @in corrected_image_file @AS corrected_image
                 @out collection_log @uri file:run/collected_images.csv
                 @log {cassette_id},{sample_id},{energy},{average_intensity},{corrected_image_path}
-
+                @assert collection_log depends-on cassette_id frame_number sample_id pixel_count total_intensity corrected_image
                 """
                 average_intensity = float(total_intensity) / float(pixel_count)
                 with open('run/collected_images.csv', 'at') as collection_log_file:

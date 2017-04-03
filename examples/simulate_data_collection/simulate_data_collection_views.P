@@ -16,44 +16,44 @@ yw_workflow_script(11,transform_image,1,'simulate_data_collection.py').
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_program(WorkflowId, ProgramName, WorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_program(1,simulate_data_collection,nil,1,12,145).
-yw_program(2,initialize_run,1,1,33,50).
-yw_program(3,load_screening_results,1,1,54,65).
-yw_program(4,calculate_strategy,1,1,69,75).
-yw_program(5,log_rejected_sample,1,1,79,88).
-yw_program(6,collect_data_set,1,1,92,109).
-yw_program(7,transform_images,1,1,113,125).
-yw_program(8,log_average_image_intensity,1,1,129,141).
-yw_program(9,calculate_strategy,nil,1,149,173).
-yw_program(10,collect_next_image,nil,1,177,197).
-yw_program(11,transform_image,nil,1,201,226).
+yw_program(1,simulate_data_collection,nil,1,12,168).
+yw_program(2,initialize_run,1,1,34,52).
+yw_program(3,load_screening_results,1,1,56,70).
+yw_program(4,calculate_strategy,1,1,74,87).
+yw_program(5,log_rejected_sample,1,1,91,102).
+yw_program(6,collect_data_set,1,1,106,128).
+yw_program(7,transform_images,1,1,132,148).
+yw_program(8,log_average_image_intensity,1,1,152,164).
+yw_program(9,calculate_strategy,nil,1,172,196).
+yw_program(10,collect_next_image,nil,1,200,220).
+yw_program(11,transform_image,nil,1,224,249).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_workflow(WorkflowId, WorkflowName, ParentWorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_workflow(1,simulate_data_collection,nil,1,12,145).
-yw_workflow(11,transform_image,nil,1,201,226).
+yw_workflow(1,simulate_data_collection,nil,1,12,168).
+yw_workflow(11,transform_image,nil,1,224,249).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_workflow_step(StepId, StepName, WorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_workflow_step(2,initialize_run,1,1,33,50).
-yw_workflow_step(3,load_screening_results,1,1,54,65).
-yw_workflow_step(4,calculate_strategy,1,1,69,75).
-yw_workflow_step(5,log_rejected_sample,1,1,79,88).
-yw_workflow_step(6,collect_data_set,1,1,92,109).
-yw_workflow_step(7,transform_images,1,1,113,125).
-yw_workflow_step(8,log_average_image_intensity,1,1,129,141).
+yw_workflow_step(2,initialize_run,1,1,34,52).
+yw_workflow_step(3,load_screening_results,1,1,56,70).
+yw_workflow_step(4,calculate_strategy,1,1,74,87).
+yw_workflow_step(5,log_rejected_sample,1,1,91,102).
+yw_workflow_step(6,collect_data_set,1,1,106,128).
+yw_workflow_step(7,transform_images,1,1,132,148).
+yw_workflow_step(8,log_average_image_intensity,1,1,152,164).
 
 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_function(FunctionId, FunctionName, ParentWorkflowId, SourceId, BeginLine, EndLine).
 %...................................................................................................
-yw_function(9,calculate_strategy,nil,1,149,173).
-yw_function(10,collect_next_image,nil,1,177,197).
-yw_function(11,transform_image,nil,1,201,226).
+yw_function(9,calculate_strategy,nil,1,172,196).
+yw_function(10,collect_next_image,nil,1,200,220).
+yw_function(11,transform_image,nil,1,224,249).
 
 
 %---------------------------------------------------------------------------------------------------
@@ -365,16 +365,61 @@ yw_description(port,37,raw_image_file,'Path of file storing the raw diffraction 
 %---------------------------------------------------------------------------------------------------
 % FACT: yw_assertion(program_id, program_name, subject_id, subject_name, predicate, object_id, object_name).
 %...................................................................................................
+yw_assertion(2,initialize_run,13,run_log,'depends-on',11,cassette_id).
+yw_assertion(2,initialize_run,13,run_log,'depends-on',12,sample_score_cutoff).
+yw_assertion(3,load_screening_results,15,sample_name,'acquired-using',11,cassette_id).
+yw_assertion(3,load_screening_results,15,sample_name,'acquired-using',14,sample_spreadsheet).
+yw_assertion(3,load_screening_results,16,sample_quality,'acquired-using',11,cassette_id).
+yw_assertion(3,load_screening_results,16,sample_quality,'acquired-using',14,sample_spreadsheet).
+yw_assertion(3,load_screening_results,13,run_log,'depends-on',11,cassette_id).
+yw_assertion(3,load_screening_results,13,run_log,'depends-on',12,sample_score_cutoff).
+yw_assertion(4,calculate_strategy,18,accepted_sample,'takes-value-of',15,sample_name).
+yw_assertion(4,calculate_strategy,18,accepted_sample,'depends-on',16,sample_quality).
+yw_assertion(4,calculate_strategy,18,accepted_sample,'depends-on',12,sample_score_cutoff).
+yw_assertion(4,calculate_strategy,19,rejected_sample,'takes-value-of',15,sample_name).
+yw_assertion(4,calculate_strategy,19,rejected_sample,'depends-on',16,sample_quality).
+yw_assertion(4,calculate_strategy,19,rejected_sample,'depends-on',12,sample_score_cutoff).
+yw_assertion(4,calculate_strategy,21,energies,'depends-on',16,sample_quality).
+yw_assertion(4,calculate_strategy,21,energies,'depends-on',12,sample_score_cutoff).
+yw_assertion(4,calculate_strategy,20,num_images,'derives-from',17,data_redundancy).
+yw_assertion(4,calculate_strategy,20,num_images,'depends-on',16,sample_quality).
+yw_assertion(4,calculate_strategy,20,num_images,'depends-on',12,sample_score_cutoff).
+yw_assertion(5,log_rejected_sample,22,rejection_log,'depends-on',19,rejected_sample).
+yw_assertion(6,collect_data_set,26,raw_image,'acquired-using',21,energies).
+yw_assertion(6,collect_data_set,26,raw_image,'depends-on',20,num_images).
+yw_assertion(6,collect_data_set,26,raw_image,'depends-on',18,accepted_sample).
+yw_assertion(6,collect_data_set,25,frame_number,'depends-on',20,num_images).
+yw_assertion(6,collect_data_set,23,sample_id,'takes-value-of',18,accepted_sample).
+yw_assertion(6,collect_data_set,24,energy,'derives-from',21,energies).
+yw_assertion(6,collect_data_set,13,run_log,'depends-on',21,energies).
+yw_assertion(6,collect_data_set,13,run_log,'depends-on',20,num_images).
+yw_assertion(6,collect_data_set,13,run_log,'depends-on',18,accepted_sample).
+yw_assertion(6,collect_data_set,13,run_log,'depends-on',11,cassette_id).
+yw_assertion(7,transform_images,28,corrected_image,'derives-from',26,raw_image).
+yw_assertion(7,transform_images,28,corrected_image,'derives-from',27,calibration_image).
+yw_assertion(7,transform_images,30,pixel_count,'derives-from',28,corrected_image).
+yw_assertion(7,transform_images,29,total_intensity,'derives-from',28,corrected_image).
+yw_assertion(7,transform_images,13,run_log,'depends-on',25,frame_number).
+yw_assertion(7,transform_images,13,run_log,'depends-on',23,sample_id).
+yw_assertion(7,transform_images,13,run_log,'depends-on',24,energy).
+yw_assertion(7,transform_images,13,run_log,'depends-on',26,raw_image).
+yw_assertion(8,log_average_image_intensity,31,collection_log,'depends-on',11,cassette_id).
+yw_assertion(8,log_average_image_intensity,31,collection_log,'depends-on',25,frame_number).
+yw_assertion(8,log_average_image_intensity,31,collection_log,'depends-on',23,sample_id).
+yw_assertion(8,log_average_image_intensity,31,collection_log,'depends-on',30,pixel_count).
+yw_assertion(8,log_average_image_intensity,31,collection_log,'depends-on',29,total_intensity).
+yw_assertion(8,log_average_image_intensity,31,collection_log,'depends-on',28,corrected_image).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',1,cassette_id).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',2,sample_score_cutoff).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',3,data_redundancy).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',4,sample_spreadsheet).
 yw_assertion(1,simulate_data_collection,6,raw_image,'depends-on',5,calibration_image).
+yw_assertion(1,simulate_data_collection,7,corrected_image,'derives-from',6,raw_image).
+yw_assertion(1,simulate_data_collection,7,corrected_image,'derives-from',5,calibration_image).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',1,cassette_id).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',2,sample_score_cutoff).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',3,data_redundancy).
 yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',4,sample_spreadsheet).
-yw_assertion(1,simulate_data_collection,7,corrected_image,'depends-on',5,calibration_image).
 yw_assertion(1,simulate_data_collection,8,run_log,'depends-on',1,cassette_id).
 yw_assertion(1,simulate_data_collection,8,run_log,'depends-on',2,sample_score_cutoff).
 yw_assertion(1,simulate_data_collection,8,run_log,'depends-on',3,data_redundancy).
